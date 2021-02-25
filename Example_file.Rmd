@@ -1,0 +1,79 @@
+---
+title: "VectraMIBI_example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R package for visualization and supervised cell annotation of Vectra Polaris and MIBI data. The package provides basic marker visualization tools like: heat-map and ridge plot. Given a set of annotated training images, it can also perform a random forest based cell phenotyping for non-annotated images. 
+
+
+```{r reading data}
+n_cores = parallel::detectCores()-1
+full_data = read.csv("Data/Full_cellData_pruned.csv")
+train_data = read.csv("Data/Training_Data.csv")
+```
+
+```{r reading data}
+#-----Summary of cell proportions-------------------
+summ_cell(full_data)
+
+num_patients = length(unique(full_data$SampleID))
+df = train_data[,-c(1,2)]
+```
+
+```{r reading data}
+#-----Generate Heatmaps of different kinds------------
+#genheatmap(df,is.log=FALSE)
+genheatmap(df,is.log=TRUE)
+```
+
+```{r reading data}
+#------proportion finder-----------------
+fin_prop(full_data)
+```
+
+
+```{r reading data}
+#------Ridge-plot generator--------------
+
+interested_traits = c("Vimentin", "SMA", "CD45", "CD31", "Beta.catenin","Keratin6" )
+interested_trait = c("Vimentin")
+ridge_plottter(train_data,interested_trait,is.log="TRUE")
+```
+
+
+```{r reading data}
+#------Fitting Random Forest-------------
+
+run_train = training_part(training_dat = train_data[,-c(1,2)])
+RFclassi = run_train$RFclassifier
+proportion = run_train$Proportion
+res = testing_function(proportion)
+
+#------------------------------------------------------------------------
+
+```
+
+
+
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

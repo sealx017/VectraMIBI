@@ -1,5 +1,5 @@
 ---
-title: "VectraMIBI_example"
+title: "VectraMIBI"
 output: github_document
 ---
 
@@ -14,41 +14,74 @@ knitr::opts_chunk$set(
 ```
 
 
-## VectraMIBI
 
 This is an R package for visualization and supervised cell annotation of Vectra Polaris and MIBI data. The package provides basic marker visualization tools like: heat-map and ridge plot. Given a set of annotated training images, it can also perform a random forest based cell phenotyping for non-annotated images. 
 
 
-#
-First we load the required packages and import the training dataset (named as "train_data") which has marker data for different cells from different images and all the cells are annotated. The first two columns of the training dataset respectively correspond to the image number and the cell number inside that image number. 
+## Loading required packages
 
-```{r reading data}
+First, we load our package: VectraMIBI and a few other required packages. One can install the developmental version of VectraMIBI by running the command: **devtools::install_github("sealx017/VectraMIBI")**. 
+
+```{r loading packages, message=FALSE}
+
 require(VectraMIBI)
 require(dplyr)
 require(data.table)
 require(pheatmap)
 require(ggplot2)
 require(ggridges)
+require(caret)
 
-n_cores = parallel::detectCores()-1
-full_data = read.csv("Data/Full_cellData_pruned.csv")
-train_data = read.csv("Data/Training_Data.csv")
 ```
+
+## Loading the dataset 
+
+Next, we import the training dataset named as "train_data", which has marker data (34 many) for different cells from two different images. The first two columns: "SampleID" and "cellLabelInImage" of the training dataset respectively correspond to the image number and the cell label inside that image. The third column ("Group") corresponds to the annotated cell type. 
+
+```{r loading the training data}
+train_data = read.csv("Data/Training_Data.csv")
+head(train_data[,1:5])
+
+
+```
+
+We also load the full data named as "full_data" (consisting of 44 many images). It has all the columns of the training data except "Group". We would later predict the type of the cells from this dataset. 
+For running the code on multiple threads, we also find out the number of cores ("n_cores") of the machine and use it as needed.
+
+```{r loading the full data}
+
+full_data = read.csv("Data/Full_cellData_pruned.csv")
+head(full_data[,1:5])
+n_cores = parallel::detectCores()-1
+print(n_cores)
+
+```
+
+## Summary of cell types 
+
+The function displays a table that summarizes the number of cells in each of the cell types in the training dataset. 
 
 ```{r summary cell counts}
 #-----Summary of cell proportions-------------------
-summ_cell(full_data)
+summ_cell(train_data)
 
 ```
 
+## Heatmap of mean marker values
+
+We generate heatmap of the mean marker values (or, mean of log-transformed marker values) over different cell types from the training dataset.
 
 ```{r heatmap}
 #-----Generate Heatmaps of different kinds------------
-df = train_data[,-c(1,2)]
+dft = train_data[,-c(1,2)]
 #genheatmap(df,is.log=FALSE)
-genheatmap(df,is.log=TRUE)
+genheatmap(dft,is.log=TRUE)
 ```
 
+
+## Ridge plot of marker values
+
+Next, we generate image specific ridge plot of a particular marker over different cells and color by the types. Below, we display the ridge plot for marker "Vimentin".
 
 
 ```{r ridge plots}
@@ -59,21 +92,24 @@ interested_trait = c("Vimentin")
 ridge_plottter(train_data,interested_trait,is.log="TRUE")
 ```
 
+## Run random forest
+
+We fit a random forest model on the training dataset. With the fitted model, we predict the cell-types of the full data.
 
 
+```{r eval=FALSE}
+df = full_data[,-c(1,2)]
+run_train = training_part(train_data = train_data[,-c(1,2)])
+RFclassi = run_train$RFclassifier
+result = testing_function(RFclassi)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+> head(result)
+  SampleID cellLabelInImage              Predicted
+1        1                2 Keratin-positive tumor
+2        1                3                 Immune
+3        1                4 Keratin-positive tumor
+4        1                5 Keratin-positive tumor
+5        1                6                 Immune
+6        1                7                 Immune
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

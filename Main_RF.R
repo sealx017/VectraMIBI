@@ -9,7 +9,7 @@ cell_data = read.csv("Data/Full_cellData.csv")
 columns_of_interest = c(1,2,55,11,12,14:40,42,43,45,48,49)
 #write.csv(cell_data[,columns_of_interest],"Data/Full_cellData_pruned.csv",row.names = F)
 cell_data = read.csv("Data/Full_cellData_pruned.csv")
-
+#write.csv(cell_data[,-3],"Data/Full_cellData_pruned.csv",row.names = F)
 #-----Summary of cell proportions-------------------
 summ_cell(cell_data)
 

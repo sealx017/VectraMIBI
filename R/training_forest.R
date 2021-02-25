@@ -12,9 +12,10 @@
 
 training_part<-function(train_data, is.log = FALSE){
   if(is.log==TRUE){
-    training_dat = cbind(train_data$Group,log((train_data[,-1]+1),base = 2))
+    train_data = cbind(train_data$Group,log((train_data[,-1]+1),base = 2))
     colnames(train_data)[1] = "Group"
   }
+  colnames(train_data)[-1] = paste0("x",1:(ncol(train_data)-1))
   cl<-parallel::makePSOCKcluster(n_cores)
   doParallel::registerDoParallel(cl)
   classifier_rf  <- caret::train(Group~.,train_data,method="rf")

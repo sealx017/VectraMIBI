@@ -5,7 +5,7 @@
 #' Any rows with duplicated row names will be dropped with the first one being
 #' kepted.
 #'
-#' @param cell_data Path to the input file
+#' @param data Path to the input file
 #' @return A matrix of the infile
 #' @export
 proportion_getter<-function(data)

@@ -1,4 +1,16 @@
-require(ggplot2)
+#' @title Load a Matrix
+#'
+#' This function loads a file as a matrix. It assumes that the first column
+#' contains the rownames and the subsequent columns are the sample identifiers.
+#' Any rows with duplicated row names will be dropped with the first one being
+#' kepted.
+#'
+#' @param train_data to the input file
+#' @param interested_trait to the input file
+#' @param is.log to the input file
+#' @return A matrix of the infile
+#' @export
+
 ridge_plottter<-function(train_data,interested_trait,is.log="TRUE")
 {
   fin_dat = NULL
@@ -15,8 +27,6 @@ ridge_plottter<-function(train_data,interested_trait,is.log="TRUE")
   }
   fin_dat$image_number = as.factor(fin_dat$image_number)
   fin_dat$Group = as.factor(fin_dat$Group)
-
-  #fin_dat  = fin_dat[fin_dat$Group=="Mesenchymal-like",]
   p = ggplot(fin_dat, aes(x = value, y = image_number, fill = Group)) +
   ggridges::geom_density_ridges(alpha = .5)+ggtitle(paste0("Ridge plot of ",
   interested_trait))+theme(axis.title.y = element_text(size = 0))

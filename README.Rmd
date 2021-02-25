@@ -1,62 +1,61 @@
 ---
 title: "VectraMIBI_example"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  messages = FALSE,
+  warnings = FALSE
+)
+```
 ```
 
-## R Markdown
+## VectraMIBI
 
 This is an R package for visualization and supervised cell annotation of Vectra Polaris and MIBI data. The package provides basic marker visualization tools like: heat-map and ridge plot. Given a set of annotated training images, it can also perform a random forest based cell phenotyping for non-annotated images. 
 
 
+#
+First we load the required packages and import the training dataset (named as "train_data") which has marker data for different cells from different images and all the cells are annotated. The first two columns of the training dataset respectively correspond to the image number and the cell number inside that image number. 
+
 ```{r reading data}
+require(VectraMIBI)
+require(dplyr)
+require(data.table)
+require(pheatmap)
+require(ggplot2)
+require(ggridges)
+
 n_cores = parallel::detectCores()-1
 full_data = read.csv("Data/Full_cellData_pruned.csv")
 train_data = read.csv("Data/Training_Data.csv")
 ```
 
-```{r reading data}
+```{r summary cell counts}
 #-----Summary of cell proportions-------------------
 summ_cell(full_data)
 
-num_patients = length(unique(full_data$SampleID))
-df = train_data[,-c(1,2)]
 ```
 
-```{r reading data}
+
+```{r heatmap}
 #-----Generate Heatmaps of different kinds------------
+df = train_data[,-c(1,2)]
 #genheatmap(df,is.log=FALSE)
 genheatmap(df,is.log=TRUE)
 ```
 
-```{r reading data}
-#------proportion finder-----------------
-fin_prop(full_data)
-```
 
 
-```{r reading data}
+```{r ridge plots}
 #------Ridge-plot generator--------------
 
-interested_traits = c("Vimentin", "SMA", "CD45", "CD31", "Beta.catenin","Keratin6" )
+#interested_traits = c("Vimentin", "SMA", "CD45", "CD31", "Beta.catenin","Keratin6" )
 interested_trait = c("Vimentin")
 ridge_plottter(train_data,interested_trait,is.log="TRUE")
-```
-
-
-```{r reading data}
-#------Fitting Random Forest-------------
-
-run_train = training_part(training_dat = train_data[,-c(1,2)])
-RFclassi = run_train$RFclassifier
-proportion = run_train$Proportion
-res = testing_function(proportion)
-
-#------------------------------------------------------------------------
-
 ```
 
 

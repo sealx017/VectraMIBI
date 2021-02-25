@@ -9,8 +9,9 @@
 #' @return A matrix of the infile
 #' @export
 
+
 summ_cell <- function(cell_data)
 {
- summary_total_cells = cell_data %>% dplyr::group_by(Group) %>% dplyr::summarise(total_cells = n())
+ summary_total_cells = cell_data %>% group_by(Group) %>% dplyr::summarise(total_cells = n())
  print(knitr::kable(summary_total_cells))
 }

@@ -6,12 +6,13 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
+  comment = "#",
+  out.width = "100%",
   messages = FALSE,
   warnings = FALSE
 )
 ```
-```
+
 
 ## VectraMIBI
 

@@ -1,11 +1,11 @@
 Package: VectraMIBI
-Title: What the Package Does (One Line, Title Case)
+Title: Visualization and Automated Cell Annotating for Vectra Polaris and MIBI data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = Souvik",
+           family = "Seal",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "slsouvik@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 License: `use_mit_license()`, `use_gpl3_license()` or friends to
@@ -14,3 +14,9 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+         data.table (>= 1.9.4)
+         dplyr
+         pheatmap
+         ggplot2
+         ggridges

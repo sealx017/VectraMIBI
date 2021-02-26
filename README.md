@@ -129,7 +129,7 @@ model, we predict the cell-types of the full data.
 df = full_data[,-c(1,2)]
 run_train = training_part(train_data = train_data[,-c(1,2)])
 RFclassi = run_train$RFclassifier
-result = testing_function(RFclassi)
+result = test_function(full_data, RFclassi)
 
 > head(result)
   SampleID cellLabelInImage              Predicted

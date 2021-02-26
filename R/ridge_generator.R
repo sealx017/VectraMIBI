@@ -1,13 +1,10 @@
-#' @title Load a Matrix
+#' @title Generate Ridge plots
 #'
-#' This function loads a file as a matrix. It assumes that the first column
-#' contains the rownames and the subsequent columns are the sample identifiers.
-#' Any rows with duplicated row names will be dropped with the first one being
-#' kepted.
-#'
-#' @param train_data to the input file
-#' @param interested_trait to the input file
-#' @param is.log to the input file
+#'This function generates ridge plot of a particular marker acroos different type of cells
+#'for different images of the training datset
+#' @param train_data the training dataset
+#' @param interested_trait name of the marker of interest
+#' @param is.log logical value, if TRUE, log transformed marker data will be considered
 #' @return A matrix of the infile
 #' @export
 

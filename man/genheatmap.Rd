@@ -4,24 +4,22 @@
 \alias{genheatmap}
 \title{Generate Heatmap
 
-This function loads a file as a matrix. It assumes that the first column
-contains the rownames and the subsequent columns are the sample identifiers.
-Any rows with duplicated row names will be dropped with the first one being
-kept.}
+This function plots the heatmap of mean marker data for different cell types from the
+training data.}
 \usage{
 genheatmap(df, is.log = FALSE)
 }
 \arguments{
-\item{df}{Path to the input file}
+\item{df}{Matrix of marker values (columns are different markers and rows are the cells)}
+
+\item{is.log}{logical value denoting the need of log transformation.}
 }
 \value{
-A matrix of the infile
+A heatmap plot
 }
 \description{
 Generate Heatmap
 
-This function loads a file as a matrix. It assumes that the first column
-contains the rownames and the subsequent columns are the sample identifiers.
-Any rows with duplicated row names will be dropped with the first one being
-kept.
+This function plots the heatmap of mean marker data for different cell types from the
+training data.
 }

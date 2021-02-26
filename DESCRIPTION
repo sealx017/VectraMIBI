@@ -2,7 +2,7 @@ Package: VectraMIBI
 Title: Visualization and Automated Cell Annotating for Vectra Polaris and MIBI data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = Souvik",
+    person(given = "Souvik",
            family = "Seal",
            role = c("aut", "cre"),
            email = "slsouvik@gmail.com",
@@ -15,8 +15,8 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
-         data.table (>= 1.9.4)
-         dplyr
-         pheatmap
-         ggplot2
-         ggridges
+ data.table (>= 1.9.4),
+ dplyr,
+ pheatmap,
+ ggplot2,
+ ggridges

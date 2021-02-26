@@ -2,30 +2,26 @@
 % Please edit documentation in R/ridge_generator.R
 \name{ridge_plottter}
 \alias{ridge_plottter}
-\title{Load a Matrix
+\title{Generate Ridge plots
 
-This function loads a file as a matrix. It assumes that the first column
-contains the rownames and the subsequent columns are the sample identifiers.
-Any rows with duplicated row names will be dropped with the first one being
-kepted.}
+This function generates ridge plot of a particular marker acroos different type of cells
+for different images of the training datset}
 \usage{
 ridge_plottter(train_data, interested_trait, is.log = "TRUE")
 }
 \arguments{
-\item{train_data}{to the input file}
+\item{train_data}{the training dataset}
 
-\item{interested_trait}{to the input file}
+\item{interested_trait}{name of the marker of interest}
 
-\item{is.log}{to the input file}
+\item{is.log}{logical value, if TRUE, log transformed marker data will be considered}
 }
 \value{
 A matrix of the infile
 }
 \description{
-Load a Matrix
+Generate Ridge plots
 
-This function loads a file as a matrix. It assumes that the first column
-contains the rownames and the subsequent columns are the sample identifiers.
-Any rows with duplicated row names will be dropped with the first one being
-kepted.
+This function generates ridge plot of a particular marker acroos different type of cells
+for different images of the training datset
 }

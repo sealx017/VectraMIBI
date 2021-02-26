@@ -7,7 +7,7 @@
 proportion_getter(data)
 }
 \arguments{
-\item{cell_data}{Path to the input file}
+\item{data}{Path to the input file}
 }
 \value{
 A matrix of the infile

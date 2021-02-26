@@ -2,19 +2,17 @@
 % Please edit documentation in R/data_summary.R
 \name{summ_cell}
 \alias{summ_cell}
-\title{Load a Matrix}
+\title{Summary of cell proportions}
 \usage{
 summ_cell(cell_data)
 }
 \arguments{
-\item{cell_data}{Path to the input file}
+\item{cell_data}{The training dataset}
 }
 \value{
-A matrix of the infile
+A table of cell counts of different types
 }
 \description{
-This function loads a file as a matrix. It assumes that the first column
-contains the rownames and the subsequent columns are the sample identifiers.
-Any rows with duplicated row names will be dropped with the first one being
-kepted.
+This function provides a table of cell counts of different types in
+the training dataset.
 }

@@ -1,12 +1,10 @@
-#' Load a Matrix
+#' Summary of cell proportions
 #'
-#' This function loads a file as a matrix. It assumes that the first column
-#' contains the rownames and the subsequent columns are the sample identifiers.
-#' Any rows with duplicated row names will be dropped with the first one being
-#' kepted.
+#'This function provides a table of cell counts of different types in
+#'the training dataset.
 #'
-#' @param cell_data Path to the input file
-#' @return A matrix of the infile
+#' @param cell_data The training dataset
+#' @return A table of cell counts of different types
 #' @export
 
 

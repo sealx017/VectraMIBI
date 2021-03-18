@@ -12,7 +12,7 @@ cell phenotyping for non-annotated images.
 First, we load our package: VectraMIBI and a few other required
 packages. One can install the developmental version of VectraMIBI by
 running the command:
-**devtools::install\_github(“sealx017/VectraMIBI”)**.
+**devtools::install\_github(‘sealx017/VectraMIBI’)**.
 
 ``` r
 
@@ -23,6 +23,8 @@ require(pheatmap)
 require(ggplot2)
 require(ggridges)
 require(caret)
+require(parallel)
+require(aricode)
 ```
 
 ## Loading the dataset
@@ -114,7 +116,7 @@ for marker “Vimentin”.
 
 #interested_traits = c("Vimentin", "SMA", "CD45", "CD31", "Beta.catenin","Keratin6" )
 interested_trait = c("Vimentin")
-ridge_plottter(train_data,interested_trait,is.log="TRUE")
+ridge_plotter(train_data,interested_trait,is.log="TRUE")
 # Picking joint bandwidth of 0.371
 ```
 
@@ -129,14 +131,38 @@ model, we predict the cell-types of the full data.
 df = full_data[,-c(1,2)]
 run_train = training_part(train_data = train_data[,-c(1,2)])
 RFclassi = run_train$RFclassifier
-result = test_function(full_data, RFclassi)
+#result = test_function(full_data, RFclassi)
+result= test_function_simple(full_data, RFclassi)
+head(result)
+# [1] Keratin-positive tumor Immune                 Keratin-positive tumor
+# [4] Keratin-positive tumor Immune                 Immune                
+# 6 Levels: Endothelial Immune Keratin-positive tumor Mesenchymal-like ... Unidentified
+```
 
-> head(result)
-  SampleID cellLabelInImage              Predicted
-1        1                2 Keratin-positive tumor
-2        1                3                 Immune
-3        1                4 Keratin-positive tumor
-4        1                5 Keratin-positive tumor
-5        1                6                 Immune
-6        1                7                 Immune
+## Validation and Clustering performance
+
+To measure predictive performance of the fitted model, one may be
+willing to break the training data-set further to create a validation
+set and check the prediction performance on that. Here, we randomly
+select 20% of the training data as the validation set. We train the
+model on the rest of the data and check the predictive performance by
+computing Adjusted Rand Index (ARI) and Normalized mutual information
+(NMI). For both the indices, closer to 1 values imply better
+classification.
+
+``` r
+validation_proportion = 0.2
+validation_indices = sample(1:dim(train_data)[1],dim(train_data)[1]*validation_proportion)
+validation_data = train_data[validation_indices,]
+run_train_v = training_part(train_data = train_data[-validation_indices,-c(1,2)])
+RFclassi_v = run_train_v$RFclassifier
+validation_result = test_function_simple(validation_data[,-3], RFclassi_v)
+
+#ARI
+aricode::ARI(validation_result,validation_data$Group)
+# [1] 0.9713496
+
+#NMI
+aricode::NMI(validation_result,validation_data$Group)
+# [1] 0.921866
 ```

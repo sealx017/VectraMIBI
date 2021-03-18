@@ -20,7 +20,7 @@ This is an R package for visualization and supervised cell annotation of Vectra 
 
 ## Loading required packages
 
-First, we load our package: VectraMIBI and a few other required packages. One can install the developmental version of VectraMIBI by running the command: **devtools::install_github("sealx017/VectraMIBI")**. 
+First, we load our package: VectraMIBI and a few other required packages. One can install the developmental version of VectraMIBI by running the command: **devtools::install_github('sealx017/VectraMIBI')**. 
 
 ```{r loading packages, message=FALSE}
 
@@ -31,7 +31,8 @@ require(pheatmap)
 require(ggplot2)
 require(ggridges)
 require(caret)
-
+require(parallel)
+require(aricode)
 ```
 
 ## Loading the dataset 
@@ -97,19 +98,29 @@ ridge_plottter(train_data,interested_trait,is.log="TRUE")
 We fit a random forest model on the training dataset. With the fitted model, we predict the cell-types of the full data.
 
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 df = full_data[,-c(1,2)]
 run_train = training_part(train_data = train_data[,-c(1,2)])
 RFclassi = run_train$RFclassifier
-result = test_function(full_data, RFclassi)
+#result = test_function(full_data, RFclassi)
+result= test_function_simple(full_data, RFclassi)
 
-> head(result)
-  SampleID cellLabelInImage              Predicted
-1        1                2 Keratin-positive tumor
-2        1                3                 Immune
-3        1                4 Keratin-positive tumor
-4        1                5 Keratin-positive tumor
-5        1                6                 Immune
-6        1                7                 Immune
+```
+
+
+## Validation and Clustering performance
+
+To measure predictive performance of the fitted model, one may be willing to break the training data-set further to create a validation set and check the prediction performance on that. Here, we randomly select 20% of the training data as the validation set. We train the model on the rest of the data and check the predictive performance by computing Adjusted Rand Index (ARI) and Normalized mutual information (NMI). For both the indices, closer to 1 values imply better classification. 
+
+```{r eval=TRUE}
+validation_proportion = 0.2
+validation_indices = sample(1:dim(train_data)[1],dim(train_data)[1]*validation_proportion)
+validation_data = train_data[validation_indices,]
+run_train_v = training_part(train_data = train_data[-validation_indices,-c(1,2)])
+RFclassi_v = run_train_v$RFclassifier
+validation_result = test_function_simple(validation_data[,-3], RFclassi_v)
+
+aricode::ARI(validation_result,validation_data$Group)
+aricode::NMI(validation_result,validation_data$Group)
 ```
 

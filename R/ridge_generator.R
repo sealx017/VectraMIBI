@@ -8,7 +8,7 @@
 #' @return A matrix of the infile
 #' @export
 
-ridge_plottter<-function(train_data,interested_trait,is.log="TRUE")
+ridge_plotter<-function(train_data,interested_trait,is.log="TRUE")
 {
   fin_dat = NULL
   j = 1

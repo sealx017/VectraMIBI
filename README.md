@@ -131,8 +131,7 @@ model, we predict the cell-types of the full data.
 df = full_data[,-c(1,2)]
 run_train = training_part(train_data = train_data[,-c(1,2)])
 RFclassi = run_train$RFclassifier
-#result = test_function(full_data, RFclassi)
-result= test_function_simple(full_data, RFclassi)
+result = test_function_simple(full_data, RFclassi)
 head(result)
 # [1] Keratin-positive tumor Immune                 Keratin-positive tumor
 # [4] Keratin-positive tumor Immune                 Immune                
@@ -141,14 +140,12 @@ head(result)
 
 ## Validation and Clustering performance
 
-To measure predictive performance of the fitted model, one may be
-willing to break the training data-set further to create a validation
-set and check the prediction performance on that. Here, we randomly
-select 20% of the training data as the validation set. We train the
-model on the rest of the data and check the predictive performance by
-computing Adjusted Rand Index (ARI) and Normalized mutual information
-(NMI). For both the indices, closer to 1 values imply better
-classification.
+To measure the predictive performance of the fitted model, one can check
+it on a validation set. Here, we randomly select 20% of the training
+data as the validation set. We train the model on the rest of the
+training data and check the predictive performance by computing Adjusted
+Rand Index (ARI) and Normalized Mutual information (NMI). For both the
+indices, closer to 1 value implies better classification.
 
 ``` r
 validation_proportion = 0.2
@@ -160,9 +157,9 @@ validation_result = test_function_simple(validation_data[,-3], RFclassi_v)
 
 #ARI
 aricode::ARI(validation_result,validation_data$Group)
-# [1] 0.9713496
+# [1] 0.9761613
 
 #NMI
 aricode::NMI(validation_result,validation_data$Group)
-# [1] 0.921866
+# [1] 0.9347439
 ```

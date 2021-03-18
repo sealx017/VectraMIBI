@@ -1,4 +1,4 @@
-#' @title Use the fitted random forest model on the test dataset
+#' @title Use the fitted random forest model simply on the test dataset
 #'
 #' This function predicts the cell types of the test dataset which must have same number of
 #' covariates as the train dataset.

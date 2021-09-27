@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 
 
-This is an R package for visualization and supervised cell annotation of Vectra Polaris and MIBI data. The package provides basic marker visualization tools like: heat-map and ridge plot. Given a set of annotated training images, it can also perform a random forest based cell phenotyping for non-annotated images. 
+This is a R package for visualization and supervised cell annotation of Vectra Polaris and MIBI data. The package provides basic marker visualization tools like: heat-map and ridge plot. Given a set of annotated training images, it can also perform a random forest based cell phenotyping for non-annotated images. 
 
 
 ## Loading required packages
